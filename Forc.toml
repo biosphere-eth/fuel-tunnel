@@ -1,0 +1,7 @@
+[project]
+authors = ["EC2 Default User"]
+entry = "main.sw"
+license = "Apache-2.0"
+name = "postman_contract"
+
+[dependencies]
