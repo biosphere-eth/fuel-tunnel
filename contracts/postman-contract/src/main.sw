@@ -16,7 +16,6 @@ const ZERO_B256 = 0x000000000000000000000000000000000000000000000000000000000000
 abi Postman {
     // Contract that enables single massage passing
     
-    #[storage(read,write)]
     fn initialize();
     
     // add an contact to user contact list
@@ -30,6 +29,11 @@ abi Postman {
     // add an contact to user contact list
     #[storage(read,write)]
     fn message(contact_addr: b256, msg: str[8]);
+
+    // Viewer function
+
+    #[storage(read)]
+    fn is_registered() -> bool;
 }
 
 storage {
@@ -53,7 +57,6 @@ storage {
 
 impl Postman for Contract {
 
-    #[storage(read,write)]
     fn initialize(){
         
     }
@@ -62,11 +65,11 @@ impl Postman for Contract {
     #[storage(read,write)]
     fn register(key: b256){
         let sender = msg_sender();
-        let mut sender_addr = ZERO_B256;
-        match sender.unwrap() {
-            Identity::Address(addr) => sender_addr = addr.into(),
+        let sender_addr = match sender.unwrap() {
+            Identity::Address(addr) => addr.into(),
             _ => revert(0),
-        }
+        };
+
         assert(sender_addr != ZERO_B256);
         //add sender of user list
         storage.user_registry.insert(sender_addr,key);
@@ -77,11 +80,11 @@ impl Postman for Contract {
     #[storage(read,write)]
     fn add_contact(contact_addr: b256){
         let sender = msg_sender();
-        let mut sender_addr = ZERO_B256;
-        match sender.unwrap() {
-            Identity::Address(addr) => sender_addr = addr.into(),
+        let sender_addr = match sender.unwrap() {
+            Identity::Address(addr) => addr.into(),
             _ => revert(0),
-        }
+        };
+
         assert(sender_addr != ZERO_B256);
         
         // Order addresses and compare with records
@@ -92,7 +95,7 @@ impl Postman for Contract {
         };
         
         // add contact if not exist
-        assert(storage.contacts.get((addr1, addr2)));
+        assert(!storage.contacts.get((addr1, addr2)));
         storage.contacts.insert((addr1,addr2),true);
     }
     
@@ -100,22 +103,35 @@ impl Postman for Contract {
     #[storage(read,write)]
     fn message(contact_addr: b256, msg: str[8]){
         let sender = msg_sender();
-        let mut sender_addr = ZERO_B256;
-        match sender.unwrap() {
-            Identity::Address(addr) => sender_addr = addr.into(),
+        let sender_addr = match sender.unwrap() {
+            Identity::Address(addr) => addr.into(),
             _ => revert(0),
-        }
+        };
+
         assert(sender_addr != ZERO_B256);
         let (addr1, addr2) = if sender_addr < contact_addr {
             (sender_addr, contact_addr)
         } else {
             (contact_addr, sender_addr)
         };
-        
+
+        assert(storage.user_registry.get(contact_addr) != ZERO_B256); // return default value if not found
         assert(storage.contacts.get((addr1, addr2)));
         log(Message {from:sender_addr, to:contact_addr, message:msg});
         
     }
     
+
+    // Viewer function
+
+    #[storage(read)]
+    fn is_registered() -> bool{
+        let sender = msg_sender();
+        let sender_addr = match sender.unwrap() {
+            Identity::Address(addr) => addr.into(),
+            _ => revert(0),
+        };
+        storage.user_registry.get(sender_addr) != ZERO_B256
+    }
 
 }

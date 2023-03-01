@@ -1,0 +1,30 @@
+import React, { useEffect, useState } from "react";
+import './App.css';
+import { Wallet, bn, hexlify} from "fuels";
+// Import the contract factory -- you can find the name in index.ts.
+// You can also do command + space and the compiler will suggest the correct name.
+import { PostmanContractAbi__factory } from "../contracts/factories/PostmanContractAbi__factory";
+
+
+
+
+
+// The address of the contract deployed the Fuel testnet
+const CONTRACT_ID =
+  "0x8214e38080d1f46472963fbfb5f36c6c255339468dc7f495ba641a173fab3344";
+
+//the private key from createWallet.js
+const WALLET_SECRET =
+  "0xed385ab156b48da8d72d423905a10d62662c0a3ebc65849254afa1c82d532c39";
+
+// Create a Wallet from given secretKey in this case
+// The one we configured at the chainConfig.json
+const wallet = Wallet.fromPrivateKey(
+  WALLET_SECRET,
+  "https://node-beta-2.fuel.network/graphql"
+);
+
+
+// Connects out Contract instance to the deployed contract
+// address using the given wallet.
+const contract = PostmanContractAbi__factory.connect(CONTRACT_ID, wallet);

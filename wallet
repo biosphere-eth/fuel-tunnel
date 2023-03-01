@@ -1,0 +1,12 @@
+address=fuel1xl0xfweag9ns05vr8gmpcc8qemy9d5a6u56xr9jxqz9tk50y3j6s3lk005
+private=key 0xed385ab156b48da8d72d423905a10d62662c0a3ebc65849254afa1c82d532c39
+
+Wallet mnemonic phrase: wood dilemma over jar torch arrive rhythm tortoise rule apology escape shield profit truck soap lizard roof style pudding gentle melody laugh erode crop
+account 0: fuel1aqan4qfaaujmgcsrtrkc2ay6aahcdlctys0quv96dcxndz386kqsrxe8a7
+
+initialze wallet with: forc-wallet init 
+add accoutn with forc-wallet new
+deploy contract with forc deploy and sign with forc-wallet sign txid 0
+
+fuel1xl0xfweag9ns05vr8gmpcc8qemy9d5a6u56xr9jxqz9tk50y3j6s3lk005
+fuel1aqan4qfaaujmgcsrtrkc2ay6aahcdlctys0quv96dcxndz386kqsrxe8a7
