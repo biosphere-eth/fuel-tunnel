@@ -43,15 +43,15 @@ const MessageBox = ({wallet, contract}:MessageBox) => {
     // because it creates a TX and updates the contract state this requires the wallet to have enough coins to cover the costs and also to sign the Transaction
     try {
 
-      // await contract.functions.register(MSG_PK).txParams({ gasPrice: 10 }).call();
-      // await contract.functions.add_contact(wallet.address.toHexString()).txParams({ gasPrice: 10 }).call();
-      // await contract.functions.is_registered().txParams({ gasPrice: 1 }).call();
-    //   const { value } = await contract.functions.is_registered().txParams({ gasPrice: 1000}).call();
-      // await contract.functions.add_contact(wallet.address.toHexString()).txParams({ gasPrice: 10 }).call();
-      await contract.functions.message(wallet.address.toHexString(), "HELLOabc").txParams({ gasPrice: 1000 }).call();
-
+      await contract.functions.register(MSG_PK).txParams({ gasPrice: 10 }).call();
+      await contract.functions.add_contact(wallet.address.toHexString()).txParams({ gasPrice: 10 }).call();
+      // await contract.functions.initialize().txParams({ gasPrice: 1 }).call();
       const { value } = await contract.functions.is_registered().txParams({ gasPrice: 1000}).call();
-      // console.log(value);
+      // await contract.functions.add_contact(wallet.address.toHexString()).txParams({ gasPrice: 10 }).call();
+      // await contract.functions.message(wallet.address.toHexString(), "HELLOabc").txParams({ gasPrice: 1000 }).call();
+
+      // const { value } = await contract.functions.is_registered().txParams({ gasPrice: 1000}).call();
+      console.log(value);
       setRegistered(value);
     } finally {
       setLoading(false);
