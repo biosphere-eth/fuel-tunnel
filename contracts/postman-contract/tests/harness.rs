@@ -116,7 +116,4 @@ async fn can_add_contact() {
 
     // TODO: Initialize type and compare
     // assert_eq!(log, "HELLOabc");
-// 
-
-    
 }
